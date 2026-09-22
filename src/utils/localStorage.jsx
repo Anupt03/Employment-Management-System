@@ -20,7 +20,7 @@ const employees = [
                 "taskTitle": "Update website",
                 "taskDescription": "Revamp the homepage design",
                 "taskDate": "2024-10-12",
-                "category": "Design" 
+                "category": "Design"
             },
             {
                 "active": false,
@@ -199,6 +199,30 @@ const employees = [
                 "category": "Support"
             }
         ]
+    },
+    {
+        "id": 6,
+        "firstName": "Pranav",
+        "email": "pranav@example.com",
+        "password": "123",
+        "taskCounts": {
+            "active": 1,
+            "newTask": 1,
+            "completed": 0,
+            "failed": 0
+        },
+        "tasks": [
+            {
+                "active": true,
+                "newTask": true,
+                "completed": false,
+                "failed": false,
+                "taskTitle": "System Integration",
+                "taskDescription": "Integrate backend modules with UI",
+                "taskDate": "2024-10-15",
+                "category": "Development"
+            }
+        ]
     }
 ];
 
@@ -209,13 +233,13 @@ const admin = [{
     "password": "123"
 }];
 
-export const setLocalStorage = ()=>{
-    localStorage.setItem('employees',JSON.stringify(employees))
-    localStorage.setItem('admin',JSON.stringify(admin))
+export const setLocalStorage = () => {
+    localStorage.setItem('employees', JSON.stringify(employees))
+    localStorage.setItem('admin', JSON.stringify(admin))
 }
-export const getLocalStorage = ()=>{
+export const getLocalStorage = () => {
     const employees = JSON.parse(localStorage.getItem('employees'))
     const admin = JSON.parse(localStorage.getItem('admin'))
 
-    return {employees,admin}
+    return { employees, admin }
 }

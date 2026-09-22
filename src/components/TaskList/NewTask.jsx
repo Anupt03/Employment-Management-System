@@ -1,18 +1,53 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { Sparkles, Calendar, ArrowRight } from 'lucide-react'
+import { AuthContext } from '../../context/AuthProvider'
 
-const NewTask = ({data}) => {
+const NewTask = ({ data, employeeId }) => {
+    const contextValue = useContext(AuthContext)
+    const actions = contextValue && contextValue[2]
+
+    const handleAccept = async () => {
+        if (actions && actions.updateTaskStatus) {
+            await actions.updateTaskStatus(data.id || data.taskTitle, 'active', employeeId)
+        }
+    }
+
     return (
-        <div className='flex-shrink-0 h-full w-[300px] p-5 bg-green-400 rounded-xl'>
-            <div className='flex justify-between items-center'>
-                <h3 className='bg-red-600 text-sm px-3 py-1 rounded'>{data.category}</h3>
-                <h4 className='text-sm'>{data.taskDate}</h4>
+        <div className='flex-shrink-0 w-80 min-h-[260px] glass-panel p-5 rounded-2xl border border-sky-500/30 glass-card-hover flex flex-col justify-between relative overflow-hidden group'>
+            {/* Top Accent Bar */}
+            <div className='absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-sky-400 to-blue-600'></div>
+
+            <div>
+                {/* Badge & Date */}
+                <div className='flex justify-between items-center mb-3'>
+                    <span className='bg-sky-500/10 text-sky-400 border border-sky-500/30 text-xs font-bold px-2.5 py-1 rounded-lg flex items-center gap-1 uppercase tracking-wider'>
+                        <Sparkles className='w-3 h-3' />
+                        {data.category || 'General'}
+                    </span>
+                    <span className='text-xs text-slate-400 font-semibold flex items-center gap-1 bg-slate-900/60 px-2.5 py-1 rounded-lg border border-slate-800'>
+                        <Calendar className='w-3 h-3 text-slate-400' />
+                        {data.taskDate || 'No Date'}
+                    </span>
+                </div>
+
+                {/* Title & Description */}
+                <h2 className='text-lg font-bold text-white tracking-tight line-clamp-2 group-hover:text-sky-300 transition-colors'>
+                    {data.taskTitle}
+                </h2>
+                <p className='text-xs text-slate-300 mt-2 line-clamp-4 leading-relaxed font-medium'>
+                    {data.taskDescription}
+                </p>
             </div>
-            <h2 className='mt-5 text-2xl font-semibold'>{data.taskTitle}</h2>
-            <p className='text-sm mt-2'>
-                {data.taskDescription}
-            </p>
-            <div className='mt-6'>
-                <button className='bg-blue-500 rounded font-medium py-1 px-2 text-xs'>Accept Task</button>
+
+            {/* Action Button */}
+            <div className='mt-5 pt-3 border-t border-slate-800/80'>
+                <button
+                    onClick={handleAccept}
+                    className='w-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-slate-950 font-bold text-xs py-2.5 px-4 rounded-xl shadow-md shadow-sky-500/20 transition-all flex items-center justify-center gap-1.5 active:scale-95'
+                >
+                    <span>Accept Task</span>
+                    <ArrowRight className='w-3.5 h-3.5' />
+                </button>
             </div>
         </div>
     )
